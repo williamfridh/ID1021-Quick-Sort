@@ -29,33 +29,39 @@ class LinkedList {
      * Quick sort.
      */
 	public void quickSort() {
+
+		if (head == null || head.next == null)
+			return;
+
 		Node pivot = tail;
 		LinkedList smaller = new LinkedList();
 		LinkedList larger = new LinkedList();
 		
-		System.out.println("PIVOT: " + pivot.item);
-		
 		Node t = head;
-		while (t != null && t.next != null && t != pivot) {
-			if (t.item.compareTo(pivot.item) > 0) { // Larger.
-				larger.add(t);
-			} else { // Smaller.
-				smaller.add(t);
-			}
-			t = t.next;
-		}
 		
-		System.out.println("SMALLER: " + pivot.toString());
-		System.out.println("LARGER: " + pivot.toString());
+		while (t != pivot) {
+			Node tt = t.next;
+			if (t.item.compareTo(pivot.item) > 0) // Larger.
+				larger.add(t);
+			else // Smaller.
+				smaller.add(t);
+			t = tt;
+		}
 
-		//head = null;
-
-		//smaller.quickSort();
-		//larger.quickSort();
-
-		//smaller.tail = pivot;
-		//pivot.next = larger.head;
-		//head = smaller.head;
+		if (smaller.head != null) {
+			smaller.quickSort();
+			head = smaller.head;
+			smaller.tail.next = pivot;
+		} else {
+			head = pivot;
+		}
+		if (larger.head != null) {
+			larger.quickSort();
+			pivot.next = larger.head;
+			tail = larger.tail;
+		} else {
+			tail = pivot;
+		}
 	}
 
 
