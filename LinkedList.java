@@ -33,82 +33,29 @@ class LinkedList {
 		LinkedList smaller = new LinkedList();
 		LinkedList larger = new LinkedList();
 		
+		System.out.println("PIVOT: " + pivot.item);
+		
 		Node t = head;
-		while (t != pivot) {
+		while (t != null && t.next != null && t != pivot) {
 			if (t.item.compareTo(pivot.item) > 0) { // Larger.
 				larger.add(t);
 			} else { // Smaller.
 				smaller.add(t);
 			}
+			t = t.next;
 		}
+		
+		System.out.println("SMALLER: " + pivot.toString());
+		System.out.println("LARGER: " + pivot.toString());
 
-		head = null;
+		//head = null;
 
-		smaller.sort();
-		larger.sort();
+		//smaller.quickSort();
+		//larger.quickSort();
 
-		add(smaller.head);
-		add(pivot);
-		add(larger.head);
-
-		smaller.head = null;
-		smaller.tail = null;
-
-		larger.head = null;
-		larger.tail = null;
-	}
-
-
-
-	/**
-	 * Sort.
-	 */
-	public void sort() {
-
-		// Find smallest.
-		Node newHead = head;
-		Node newTail = tail;
-
-		Node l = head;
-		while (l != null) {
-
-			if (newHead.item.compareTo(l.item) > 0)
-				newHead = l;
-			if (newTail.item.compareTo(l.item) < 0)
-				newTail = l;
-
-			l = l.next;
-		}
-
-		System.out.println("New head: " + newHead.item);
-		System.out.println("New tail: " + newTail.item);
-
-		// Build upon smallest.
-		Node workOn = newHead;
-		while (true) {
-			
-			Node itter = head;
-			Node n = workOn.next;
-
-			while (itter.next != null) {
-				System.out.println(itter.item);
-				//System.out.println(itter.item);
-				if (n.item.compareTo(itter.item) > 0 && itter != workOn) {
-					//System.out.println("TRIGGER");
-					n = itter;
-				}
-				itter = itter.next;
-			}
-
-			workOn.next = n;
-
-			System.out.println("New tail: " + n.item);
-
-			if (workOn.next == newTail)
-				break;
-
-		}
-
+		//smaller.tail = pivot;
+		//pivot.next = larger.head;
+		//head = smaller.head;
 	}
 
 
@@ -138,6 +85,7 @@ class LinkedList {
 	 * @param item for the node to hold.
 	 */
 	public void add(Node n) {
+		n.next = null;
 		if (head == null) {
 			head = n;
 			tail = n;
